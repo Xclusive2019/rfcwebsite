@@ -44,7 +44,6 @@ export default function HeroSection() {
           disablePictureInPicture
           disableRemotePlayback
           className="absolute inset-0 w-full h-full object-cover opacity-60"
-          poster="/hero-facility.jpg"
           onLoadedData={(e) => {
             const v = e.currentTarget;
             v.playbackRate = 0.75;
