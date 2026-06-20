@@ -88,6 +88,7 @@ export default function HeroSection() {
                 Book a Consultation
               </Link>
             </div>
+
           </div>
 
           {/* Pest Control — aligned above H&S card */}
@@ -135,26 +136,34 @@ export default function HeroSection() {
               );
             })}
           </div>
+
+          {/* Pest Control — mobile/tablet only, sits below the four cards */}
+          <a
+            href="https://pestcontrol-solutions.co.za"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="lg:hidden flex items-center gap-3 px-4 py-3 border-t border-white/[0.06] bg-black/40 backdrop-blur-sm text-white/80 hover:bg-white/10 transition-all group"
+          >
+            <img src="/Pest control logo.jpeg" alt="Pest Control" className="w-9 h-9 object-contain rounded shrink-0" />
+            <span className="text-[13px] font-semibold tracking-wide">Pest Control Solutions</span>
+            <span className="material-icon text-[13px] text-white/40 group-hover:text-white/60 transition-colors ml-auto">open_in_new</span>
+          </a>
         </div>
       </div>
 
-      {/* Bottom capability bar — marquee style */}
-      <div className="relative z-10 border-t border-white/[0.06] bg-[#0a0a0c]/80 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-5 flex items-center gap-4">
-          <span className="text-[13px] md:text-[14px] font-semibold uppercase tracking-[0.2em] text-white/30 shrink-0 pr-4 md:pr-6 border-r border-white/[0.06]">Expertise</span>
-          <div className="flex-1 overflow-hidden">
-            <div className="animate-marquee">
-              {[...capabilities, ...capabilities].map((cap, i) => (
-                <span key={`${cap}-${i}`} className="text-[13px] md:text-[14px] text-white/40 font-medium whitespace-nowrap flex items-center gap-2 md:gap-3 px-4 md:px-6">
-                  <span className="w-1.5 h-1.5 bg-[#4A7C2F] rounded-full" />
-                  {cap}
-                </span>
-              ))}
-            </div>
-          </div>
-          <Link to="/book" className="text-[13px] md:text-[14px] font-semibold text-[#7bc45a] hover:text-white transition-colors shrink-0 flex items-center gap-1 pl-4 md:pl-6 border-l border-white/[0.06]">
-            Get Started <span className="material-icon text-[13px] md:text-[14px]">arrow_forward</span>
-          </Link>
+      {/* Bottom capability bar — full-width marquee */}
+      <div className="relative z-10 border-t border-white/[0.06] bg-[#0a0a0c]/80 overflow-hidden py-3 md:py-4">
+        {/* Fade masks on edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-24 z-10 bg-gradient-to-r from-[#0a0a0c] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-24 z-10 bg-gradient-to-l from-[#0a0a0c] to-transparent" />
+
+        <div className="animate-marquee">
+          {[...capabilities, ...capabilities, ...capabilities].map((cap, i) => (
+            <span key={`${cap}-${i}`} className="text-[12px] sm:text-[13px] md:text-[14px] text-white/40 font-medium whitespace-nowrap inline-flex items-center gap-2 px-4 sm:px-6 md:px-8">
+              <span className="w-1.5 h-1.5 bg-[#4A7C2F] rounded-full shrink-0" />
+              {cap}
+            </span>
+          ))}
         </div>
       </div>
     </section>
