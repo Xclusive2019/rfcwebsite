@@ -279,11 +279,22 @@ export default function TrainingHubPage() {
             </div>
           </div>
           <div className="shrink-0 reveal">
-            <img
-              src="/RFC Food (R638) - SAATCA TCP Logo - ONLINE - JPEG.jpg"
-              alt="SAATCA TCP Accredited Training Provider"
-              className="h-24 md:h-32 object-contain bg-white/95 rounded-lg p-3 shadow-lg"
-            />
+            <a
+              href="https://saatca.co.za/training-course-providers/online-registered-training-course-providers/"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Verify RFC Food Safety Consulting (No. 066) on the SAATCA registered providers list"
+              className="group block"
+            >
+              <img
+                src="/RFC Food (R638) - SAATCA TCP Logo - ONLINE - JPEG.jpg"
+                alt="SAATCA TCP Accredited Training Provider — click to verify on SAATCA"
+                className="h-24 md:h-32 object-contain bg-white/95 rounded-lg p-3 shadow-lg transition-transform group-hover:scale-[1.03]"
+              />
+              <span className="mt-2 flex items-center justify-center gap-1 text-[11px] font-semibold text-white/70 group-hover:text-white transition-colors">
+                Verify on SAATCA <span className="material-icon text-[13px]">open_in_new</span>
+              </span>
+            </a>
           </div>
         </div>
       </section>
@@ -535,15 +546,15 @@ export default function TrainingHubPage() {
                 RFC Food Solutions is registered with the <strong>South African Auditor and Training Certification Association (SAATCA)</strong> as an accredited Training Course Provider (TCP) for R638 food safety regulation training.
               </p>
               <p className="text-[15px] text-[#4a4a4e] leading-relaxed mb-8">
-                This accreditation means that all certificates issued for our R638 courses are nationally recognised and carry the authority of an officially accredited provider — giving your business the compliance confidence it needs.
+                This accreditation means that all certificates issued for our R638 courses are nationally recognised and carry the authority of an officially accredited provider — giving your business the compliance confidence it needs. You'll find us listed as <strong>RFC Food Safety Consulting No. 066</strong> on SAATCA's official register.
               </p>
               <a
-                href="https://saatca.co.za"
+                href="https://saatca.co.za/training-course-providers/online-registered-training-course-providers/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-[#4A7C2F] text-white text-sm font-semibold hover:bg-[#3d6a27] transition-colors rounded-sm"
               >
-                Verify our listing on SAATCA
+                View Online Registered Training Course Providers
                 <span className="material-icon text-[15px]">open_in_new</span>
               </a>
             </div>

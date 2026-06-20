@@ -9,7 +9,7 @@ const focusAreas = [
   "ISO 45001:2018 Health and Safety",
   "GlobalG.A.P. V6 Implementation",
   "ISO 9001:2015 Quality Management",
-  "SMETA Implementation | Siza and Grasp",
+  "SMETA, SIZA and GRASP Implementation",
 ];
 
 const processSteps = [
