@@ -1,0 +1,10 @@
+{
+  "name": "rfc-website",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "cd app && npm run dev",
+    "build": "cd app && npm run build",
+    "lint": "cd app && npm run lint",
+    "preview": "cd app && npm run preview"
+  }
+}
