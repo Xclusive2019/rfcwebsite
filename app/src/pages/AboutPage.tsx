@@ -54,7 +54,7 @@ const team = [
   {
     name: "Retha Faul",
     role: "Director & Founder",
-    photo: "/team/retha-faul.jpg",
+    photo: "/team/retha-faul1.jpg",
     bio: "Lead auditor in FSSC, HACCP and ISO 22000, and a consultant in FSSC, BRCGS, HACCP and GLOBALG.A.P. A GLOBALG.A.P. registered trainer with over 18 years of food industry experience and specialist expertise in food and beverage management.",
   },
   {
