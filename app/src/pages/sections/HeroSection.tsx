@@ -69,7 +69,7 @@ export default function HeroSection() {
 
             {/* Headline — consulting-firm massive type */}
             <h1 className="font-['DM_Serif_Display'] text-white text-[clamp(1.9rem,5vw,4.2rem)] leading-[1.05] md:leading-[1.02] mb-4 md:mb-5 tracking-[-0.02em]">
-              Food Safety Consulting, Training, Paperless Solution & Health and Safety
+              Food Safety Consulting, Training, Paperless Solutions & Health and Safety
             </h1>
 
             {/* Subheadline */}

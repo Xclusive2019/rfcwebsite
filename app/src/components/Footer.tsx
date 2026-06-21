@@ -36,7 +36,7 @@ export default function Footer() {
         <div className="pt-20 pb-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-5">
-              <Link to="/" className="inline-block mb-8">
+              <Link to="/" onClick={() => window.scrollTo(0, 0)} className="inline-block mb-8">
                 <img
                   src="/RFC_logo-removebg-preview.png"
                   alt="RFC Food Safety Consulting"

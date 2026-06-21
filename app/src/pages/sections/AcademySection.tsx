@@ -22,7 +22,7 @@ export default function AcademySection() {
             <p className="label mb-4">Online Training</p>
             <h2 className="heading-lg mb-6">RFC Academy</h2>
             <p className="text-body leading-relaxed mb-8">
-              SAATCA-accredited food safety courses. Learn at your own pace, anywhere in South Africa. All courses include certificates accepted by municipalities across all 9 provinces.
+              SAATCA-accredited food safety courses (R638). Learn at your own pace, anywhere in South Africa. All courses include certificates accepted by municipalities across all 9 provinces.
             </p>
             <a href="https://rfcacademy.co.za" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[#4A7C2F] text-sm font-semibold hover:underline">
               Visit RFC Academy <span className="material-icon text-[14px]">open_in_new</span>

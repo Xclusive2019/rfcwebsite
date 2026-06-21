@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { supabase, extractErrorMessage } from "../lib/supabase";
 
 interface Message {
@@ -143,8 +145,21 @@ export default function AIChat() {
                       <span className="material-icon text-[#666] text-[12px]">person</span>
                     </div>
                   )}
-                  <div className={`text-[13px] leading-relaxed whitespace-pre-line ${msg.sender === "user" ? "bg-[#4A7C2F] text-white px-4 py-2.5 max-w-[85%]" : "bg-[#f8f8f7] text-[#333] px-4 py-3 max-w-[90%] border border-[#eee]"}`}>
-                    {msg.text}
+                  <div className={`text-[13px] leading-relaxed ${msg.sender === "user" ? "whitespace-pre-line bg-[#4A7C2F] text-white px-4 py-2.5 max-w-[85%]" : "bg-[#f8f8f7] text-[#333] px-4 py-3 max-w-[90%] border border-[#eee]"}`}>
+                    {msg.sender === "bot" ? (
+                      <div className="[&_p]:mb-2 [&_p:last-child]:mb-0 [&_ol]:list-decimal [&_ul]:list-disc [&_ol]:pl-4 [&_ul]:pl-4 [&_ol]:my-2 [&_ul]:my-2 [&_li]:mb-1 [&_strong]:font-semibold [&_strong]:text-[#1a1a1e] [&_a]:text-[#4A7C2F] [&_a]:underline">
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            a: ({ ...props }) => <a target="_blank" rel="noopener noreferrer" {...props} />,
+                          }}
+                        >
+                          {msg.text}
+                        </ReactMarkdown>
+                      </div>
+                    ) : (
+                      msg.text
+                    )}
                   </div>
                 </div>
                 {msg.options && msg.sender === "bot" && (

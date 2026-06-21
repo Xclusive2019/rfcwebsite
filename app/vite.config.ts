@@ -18,20 +18,12 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
+        // Split only the heaviest, dependency-leaf vendor (Supabase) into its
+        // own chunk. React / react-router and UI libs are left to Rollup's
+        // automatic chunking to avoid cross-chunk circular init (TDZ) errors.
         manualChunks(id) {
-          if (id.includes("node_modules")) {
-            if (["react", "react-dom", "react-router-dom"].some((pkg) => id.includes(`/node_modules/${pkg}`))) {
-              return "vendor-react";
-            }
-            if (id.includes("@supabase/supabase-js")) {
-              return "vendor-supabase";
-            }
-            if (["sonner", "clsx", "tailwind-merge", "class-variance-authority"].some((pkg) => id.includes(`/node_modules/${pkg}`))) {
-              return "vendor-ui";
-            }
-          }
-          if (id.includes("/src/pages/")) {
-            return "pages";
+          if (id.includes("/node_modules/@supabase/supabase-js")) {
+            return "vendor-supabase";
           }
         },
       },

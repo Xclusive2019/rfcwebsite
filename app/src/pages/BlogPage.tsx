@@ -13,6 +13,7 @@ interface Post {
   read_time: string;
   pillar: string;
   featured: boolean;
+  cover_image: string | null;
 }
 
 function formatDate(iso: string | null) {
@@ -32,7 +33,7 @@ export default function BlogPage() {
   useEffect(() => {
     supabase
       .from("blog_posts")
-      .select("id,title,slug,excerpt,category,published_at,read_time,pillar,featured")
+      .select("id,title,slug,excerpt,category,published_at,read_time,pillar,featured,cover_image")
       .eq("published", true)
       .order("published_at", { ascending: false })
       .then(({ data }) => {
@@ -88,11 +89,18 @@ export default function BlogPage() {
           ) : featured.length > 0 ? (
             <div className="grid md:grid-cols-3 gap-px bg-[#e0e0e0]">
               {featured.map((p) => (
-                <Link key={p.id} to={`/blog/${p.slug || p.id}`} className="group bg-white p-8 hover:bg-[#f8f8f7] transition-colors">
-                  <span className="text-[13px] font-medium text-[#4A7C2F] uppercase tracking-wider">{p.category}</span>
-                  <h3 className="text-lg font-semibold text-[#1a1a1e] mt-3 mb-3 leading-snug group-hover:text-[#4A7C2F] transition-colors">{p.title}</h3>
-                  <p className="text-[15px] text-[#4a4a4e] leading-relaxed">{p.excerpt}</p>
-                  <span className="text-[13px] text-[#999] mt-4 block">{formatDate(p.published_at)} &middot; {p.read_time}</span>
+                <Link key={p.id} to={`/blog/${p.slug || p.id}`} className="group bg-white hover:bg-[#f8f8f7] transition-colors flex flex-col">
+                  {p.cover_image && (
+                    <div className="aspect-[16/9] overflow-hidden bg-[#f0f0ef]">
+                      <img src={p.cover_image} alt={p.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
+                    </div>
+                  )}
+                  <div className="p-8">
+                    <span className="text-[13px] font-medium text-[#4A7C2F] uppercase tracking-wider">{p.category}</span>
+                    <h3 className="text-lg font-semibold text-[#1a1a1e] mt-3 mb-3 leading-snug group-hover:text-[#4A7C2F] transition-colors">{p.title}</h3>
+                    <p className="text-[15px] text-[#4a4a4e] leading-relaxed">{p.excerpt}</p>
+                    <span className="text-[13px] text-[#999] mt-4 block">{formatDate(p.published_at)} &middot; {p.read_time}</span>
+                  </div>
                 </Link>
               ))}
             </div>
@@ -139,7 +147,12 @@ export default function BlogPage() {
               ))
             ) : (
               filtered.map((p) => (
-                <Link key={p.id} to={`/blog/${p.slug || p.id}`} className="group flex flex-col lg:flex-row lg:items-center gap-2 lg:gap-8 py-6 border-b border-[#eee] hover:bg-[#f8f8f7] transition-colors px-2 -mx-2">
+                <Link key={p.id} to={`/blog/${p.slug || p.id}`} className="group flex flex-col lg:flex-row lg:items-center gap-3 lg:gap-8 py-6 border-b border-[#eee] hover:bg-[#f8f8f7] transition-colors px-2 -mx-2">
+                  {p.cover_image && (
+                    <div className="w-full lg:w-40 aspect-[16/9] shrink-0 overflow-hidden bg-[#f0f0ef] rounded">
+                      <img src={p.cover_image} alt={p.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500" />
+                    </div>
+                  )}
                   <span className="text-[13px] text-[#999] font-medium uppercase tracking-wider w-32 shrink-0">{p.category}</span>
                   <div className="flex-1">
                     <h3 className="text-[17px] font-medium text-[#1a1a1e] group-hover:text-[#4A7C2F] transition-colors">{p.title}</h3>

@@ -29,6 +29,10 @@ build
 # Supabase local/temp files
 supabase/.temp
 
+# Deployment credentials
+deploy.json
+DEPLOY.md
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

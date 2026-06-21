@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { Linkedin, Facebook, MessageCircle, Mail, Link2, Check } from "lucide-react";
+import { toast } from "sonner";
 import { supabase } from "../lib/supabase";
 
 interface Post {
@@ -22,6 +24,68 @@ interface Post {
 function formatDate(iso: string | null) {
   if (!iso) return "";
   return new Date(iso).toLocaleDateString("en-ZA", { day: "numeric", month: "long", year: "numeric" });
+}
+
+function XIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor" className={className}>
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.66l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
+    </svg>
+  );
+}
+
+function ShareBar({ title }: { title: string }) {
+  const [copied, setCopied] = useState(false);
+  const url = typeof window !== "undefined" ? window.location.href : "";
+  const eUrl = encodeURIComponent(url);
+  const eTitle = encodeURIComponent(title);
+
+  const links = [
+    { name: "LinkedIn", Icon: Linkedin, href: `https://www.linkedin.com/sharing/share-offsite/?url=${eUrl}` },
+    { name: "X", Icon: XIcon, href: `https://twitter.com/intent/tweet?url=${eUrl}&text=${eTitle}` },
+    { name: "Facebook", Icon: Facebook, href: `https://www.facebook.com/sharer/sharer.php?u=${eUrl}` },
+    { name: "WhatsApp", Icon: MessageCircle, href: `https://wa.me/?text=${eTitle}%20${eUrl}` },
+    { name: "Email", Icon: Mail, href: `mailto:?subject=${eTitle}&body=${eUrl}` },
+  ];
+
+  async function copyLink() {
+    try {
+      await navigator.clipboard.writeText(url);
+      setCopied(true);
+      toast.success("Link copied");
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      toast.error("Could not copy link");
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <span className="text-[13px] text-[#999] font-medium uppercase tracking-wider mr-1">Share</span>
+      {links.map(({ name, Icon, href }) => (
+        <a
+          key={name}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Share on ${name}`}
+          title={`Share on ${name}`}
+          className="w-9 h-9 inline-flex items-center justify-center rounded-full border border-[#e0e0e0] text-[#666] hover:border-[#4A7C2F] hover:text-[#4A7C2F] hover:bg-[#4A7C2F]/5 transition-colors"
+        >
+          <Icon className="w-[18px] h-[18px]" />
+        </a>
+      ))}
+      <button
+        type="button"
+        onClick={copyLink}
+        aria-label="Copy link"
+        title="Copy link"
+        className="w-9 h-9 inline-flex items-center justify-center rounded-full border border-[#e0e0e0] text-[#666] hover:border-[#4A7C2F] hover:text-[#4A7C2F] hover:bg-[#4A7C2F]/5 transition-colors"
+      >
+        {copied ? <Check className="w-[18px] h-[18px]" /> : <Link2 className="w-[18px] h-[18px]" />}
+      </button>
+    </div>
+  );
 }
 
 export default function BlogPostPage() {
@@ -192,8 +256,13 @@ export default function BlogPostPage() {
           </ReactMarkdown>
         </div>
 
+        {/* Share */}
+        <div className="mt-12 pt-8 border-t border-[#e0e0e0]">
+          <ShareBar title={post.title} />
+        </div>
+
         {/* Footer / back */}
-        <div className="mt-16 pt-8 border-t border-[#e0e0e0] flex items-center justify-between">
+        <div className="mt-8 pt-8 border-t border-[#e0e0e0] flex items-center justify-between">
           <Link
             to="/blog"
             className="inline-flex items-center gap-2 text-[#4A7C2F] text-sm font-semibold hover:underline"

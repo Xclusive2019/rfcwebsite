@@ -61,7 +61,7 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20 lg:h-24">
-            <Link to="/" className="flex items-center shrink-0">
+            <Link to="/" onClick={() => window.scrollTo(0, 0)} className="flex items-center shrink-0">
               <img
                 src="/RFC_logo-removebg-preview.png"
                 alt="RFC Food Safety Consulting"

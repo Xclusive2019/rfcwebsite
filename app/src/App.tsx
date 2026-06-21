@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import AIChat from "./components/AIChat";
 import AdminAuthGuard from "./admin/AdminAuthGuard";
+import { Toaster } from "./components/ui/sonner";
 
 const ADMIN_LOGIN_PATH = import.meta.env.VITE_ADMIN_LOGIN_PATH || "rfcsa-admin-portal";
 
@@ -83,6 +84,7 @@ export default function App() {
       </Suspense>
       {!isAdmin && <Footer />}
       {!isAdmin && <AIChat />}
+      <Toaster />
     </div>
   );
 }
