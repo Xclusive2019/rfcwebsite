@@ -116,7 +116,7 @@ export default function HeroSection() {
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] overflow-visible">
             {divisions.map((div) => {
               const cardClassName =
-                "group relative bg-[#0a0a0c]/40 backdrop-blur-[4px] p-6 sm:p-7 lg:py-14 lg:px-10 transition-all duration-300 border-b-2 z-10 border-transparent hover:bg-white/[0.12] hover:border-[#4A7C2F] hover:scale-[1.12] hover:z-20 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)]";
+                "group relative bg-[#0a0a0c]/40 backdrop-blur-[4px] p-6 sm:p-7 lg:py-14 lg:px-10 transition-all duration-300 border-b-2 z-10 border-transparent hover:bg-white/[0.12] hover:border-[#4A7C2F] lg:hover:scale-[1.12] lg:hover:z-20 lg:hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)]";
               const cardInner = (
                 <>
                   <span className="material-icon text-[22px] md:text-[26px] lg:text-[38px] mb-3 md:mb-4 lg:mb-6 block transition-colors text-white/40 group-hover:text-[#7bc45a]">
