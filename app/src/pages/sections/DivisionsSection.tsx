@@ -1,7 +1,19 @@
-const divisions = [
-  { num: "01", name: "RFC Consulting", tagline: "Food safety consulting & certification", desc: "Full-service consulting for FSSC 22000, HACCP, BRCGS, GLOBALG.A.P., R638 compliance, internal audits, and supplier audits. From gap assessment to certification.", href: "#/consulting" },
+import { Link } from "react-router-dom";
+
+type Division = {
+  num: string;
+  name: string;
+  tagline: string;
+  desc: string;
+  href?: string;
+  anchor?: string;
+  ext?: boolean;
+};
+
+const divisions: Division[] = [
+  { num: "01", name: "RFC Consulting", tagline: "Food safety consulting & certification", desc: "Full-service consulting for FSSC 22000, HACCP, BRCGS, GLOBALG.A.P., R638 compliance, internal audits, and supplier audits. From gap assessment to certification.", anchor: "consulting" },
   { num: "02", name: "RFC Academy", tagline: "SAATCA-accredited online training", desc: "Online food safety courses from R638 Person-in-Charge to HACCP Principles, Internal Auditor, and Food Safety Culture. Learn at your own pace, anywhere.", href: "https://rfcacademy.co.za", ext: true },
-  { num: "03", name: "Comply Cloud", tagline: "Cloud compliance software", desc: "South Africa's first cloud-based food safety compliance platform. Paperless audits, real-time monitoring, automated checklists, instant reporting.", href: "#/comply-cloud" },
+  { num: "03", name: "Comply Cloud", tagline: "Cloud compliance software", desc: "South Africa's first cloud-based food safety compliance platform. Paperless audits, real-time monitoring, automated checklists, instant reporting.", href: "/comply-cloud" },
   { num: "04", name: "Health & Safety", tagline: "OHS courses & workplace safety", desc: "Comprehensive health and safety training including OHS compliance, forklift operation, working at heights, and more — keeping your workplace safe and legally compliant.", href: "/training/health-safety" },
 ];
 
@@ -26,9 +38,9 @@ export default function DivisionsSection() {
             </div>
           </div>
           <div className="lg:col-span-8">
-            {divisions.map((d, i) => (
-              <a key={d.num} href={d.ext ? d.href : d.href.replace("#", "")} target={d.ext ? "_blank" : undefined} rel={d.ext ? "noopener noreferrer" : undefined}
-                className={`group block py-6 md:py-8 border-t border-[#e8e8e8] first:border-t-0 reveal reveal-delay-${i + 1}`}>
+            {divisions.map((d, i) => {
+              const className = `group block py-6 md:py-8 border-t border-[#e8e8e8] first:border-t-0 reveal reveal-delay-${i + 1}`;
+              const inner = (
                 <div className="flex items-start gap-4 md:gap-6 lg:gap-10">
                   <span className="text-[12px] text-[#ccc] font-medium mt-1 shrink-0 w-6">{d.num}</span>
                   <div className="flex-1">
@@ -41,8 +53,42 @@ export default function DivisionsSection() {
                   </div>
                   <span className="material-icon text-[18px] text-[#ddd] group-hover:text-[#4A7C2F] group-hover:translate-x-1 transition-all shrink-0 mt-1 hidden sm:block">arrow_forward</span>
                 </div>
-              </a>
-            ))}
+              );
+
+              // External division (Academy) — open in a new tab.
+              if (d.ext && d.href) {
+                return (
+                  <a key={d.num} href={d.href} target="_blank" rel="noopener noreferrer" className={className}>
+                    {inner}
+                  </a>
+                );
+              }
+
+              // On-page section (Consulting) — smooth-scroll instead of routing,
+              // because HashRouter owns the URL hash.
+              if (d.anchor) {
+                return (
+                  <a
+                    key={d.num}
+                    href={`#${d.anchor}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(d.anchor as string)?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className={className}
+                  >
+                    {inner}
+                  </a>
+                );
+              }
+
+              // Internal route — use Link so HashRouter navigates correctly.
+              return (
+                <Link key={d.num} to={d.href as string} className={className}>
+                  {inner}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@ interface AdminSettings {
 }
 
 const DEFAULTS: AdminSettings = {
-  notification_email: "info@rfcsa.co.za",
+  notification_email: "noreply@rfcsa.co.za",
   notify_on_booking: true,
   notify_on_contact: true,
   notify_on_quiz: true,

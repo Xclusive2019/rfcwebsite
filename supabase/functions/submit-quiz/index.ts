@@ -1,5 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { getAdminSettings } from '../_shared/admin-settings.ts'
+import { sendEmail } from '../_shared/email.ts'
+import { wrapEmail } from '../_shared/email-template.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -78,7 +80,6 @@ Deno.serve(async (req) => {
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
     const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
 
     if (!supabaseUrl || !supabaseServiceRoleKey) {
       throw new Error('Supabase environment variables are not configured')
@@ -102,7 +103,7 @@ Deno.serve(async (req) => {
 
     const adminSettings = await getAdminSettings()
 
-    if (email && resendApiKey) {
+    if (email) {
       const tierRecommendations = recommendations[tier] || recommendations['Critical']
 
       const htmlBody = `
@@ -133,28 +134,19 @@ Deno.serve(async (req) => {
         `Book a consultation: ${BOOKING_URL}`,
       ].join('\n')
 
-      const resendResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'RFC SA Website <website@rfcsa.co.za>',
+      try {
+        await sendEmail({
           to: email,
           subject: 'Your assessment results',
           text: textBody,
-          html: htmlBody,
-        }),
-      })
-
-      if (!resendResponse.ok) {
-        const errorBody = await resendResponse.text()
-        console.error('Resend error:', errorBody)
+          html: wrapEmail(htmlBody, { preheader: `Your audit readiness result: ${tier} (${Number(score).toFixed(0)}/100).` }),
+        })
+      } catch (emailError) {
+        console.error('submit-quiz customer email error:', emailError)
       }
     }
 
-    if (resendApiKey && adminSettings.notify_on_quiz) {
+    if (adminSettings.notify_on_quiz) {
       const adminHtml = `<h2>New Quiz Submission</h2>
         <p><strong>Email:</strong> ${escapeHtml(email || 'Not provided')}</p>
         <p><strong>Company:</strong> ${escapeHtml(company || 'Not provided')}</p>
@@ -170,23 +162,16 @@ Deno.serve(async (req) => {
         `Tier: ${tier}`,
       ].join('\n')
 
-      const adminNotify = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'RFC SA Website <website@rfcsa.co.za>',
+      try {
+        await sendEmail({
           to: adminSettings.notification_email,
+          reply_to: email || undefined,
           subject: `New quiz submission — ${tier}`,
           text: adminText,
-          html: adminHtml,
-        }),
-      })
-
-      if (!adminNotify.ok) {
-        console.error('Resend admin notify error:', await adminNotify.text())
+          html: wrapEmail(adminHtml, { preheader: `New quiz submission — ${tier}.` }),
+        })
+      } catch (emailError) {
+        console.error('submit-quiz admin notify error:', emailError)
       }
     }
 

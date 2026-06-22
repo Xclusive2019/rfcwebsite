@@ -1,5 +1,7 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 import { getAdminSettings } from '../_shared/admin-settings.ts'
+import { sendEmail } from '../_shared/email.ts'
+import { wrapEmail } from '../_shared/email-template.ts'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -35,7 +37,6 @@ Deno.serve(async (req) => {
 
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
     const supabaseServiceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
-    const resendApiKey = Deno.env.get('RESEND_API_KEY')
 
     if (!supabaseUrl || !supabaseServiceRoleKey) {
       throw new Error('Supabase environment variables are not configured')
@@ -58,7 +59,7 @@ Deno.serve(async (req) => {
 
     const adminSettings = await getAdminSettings()
 
-    if (resendApiKey && adminSettings.notify_on_contact) {
+    if (adminSettings.notify_on_contact) {
       const htmlBody = `
         <h2>New Contact Form Submission</h2>
         <p><strong>Name:</strong> ${escapeHtml(name)}</p>
@@ -83,24 +84,17 @@ Deno.serve(async (req) => {
         message,
       ].join('\n')
 
-      const resendResponse = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendApiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: 'RFC SA Website <website@rfcsa.co.za>',
+      try {
+        await sendEmail({
           to: adminSettings.notification_email,
+          reply_to: email,
           subject: 'New contact form submission',
           text: textBody,
-          html: htmlBody,
-        }),
-      })
-
-      if (!resendResponse.ok) {
-        const errorBody = await resendResponse.text()
-        console.error('Resend error:', errorBody)
+          html: wrapEmail(htmlBody, { preheader: `New message from ${name}.` }),
+        })
+      } catch (emailError) {
+        // Don't fail the request if the notification email can't be sent.
+        console.error('submit-contact email error:', emailError)
       }
     }
 

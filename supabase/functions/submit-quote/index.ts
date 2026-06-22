@@ -1,5 +1,6 @@
 import { corsHeaders, errorResponse, jsonResponse } from "../_shared/cors.ts";
 import { sendEmail } from "../_shared/email.ts";
+import { wrapEmail } from "../_shared/email-template.ts";
 import { escapeHtml } from "../_shared/formatting.ts";
 import { getSupabaseAdmin } from "../_shared/supabase.ts";
 import { getAdminSettings } from "../_shared/admin-settings.ts";
@@ -109,12 +110,11 @@ Deno.serve(async (req) => {
 
       try {
         await sendEmail({
-          from: "RFC SA Website <website@rfcsa.co.za>",
           to: adminSettings.notification_email,
           reply_to: normalizedEmail,
           subject: `New quote request — ${productLine}`,
           text: textBody,
-          html: htmlBody,
+          html: wrapEmail(htmlBody, { preheader: `Quote request from ${name} — ${productLine}.` }),
         });
       } catch (emailError) {
         // Don't fail the request if the notification email can't be sent.

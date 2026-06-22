@@ -1,5 +1,6 @@
 import { corsHeaders, errorResponse, jsonResponse } from "../_shared/cors.ts";
-import { sendEmail } from "../_shared/email.ts";
+import { FROM_ADDRESS, sendEmail } from "../_shared/email.ts";
+import { wrapEmail } from "../_shared/email-template.ts";
 import { escapeHtml, formatDate } from "../_shared/formatting.ts";
 import { getSupabaseAdmin } from "../_shared/supabase.ts";
 import { getAdminSettings } from "../_shared/admin-settings.ts";
@@ -99,7 +100,7 @@ Deno.serve(async (req) => {
     }
 
     const formattedDate = formatDate(bookingDate);
-    const fromAddress = "RFC SA <info@rfcsa.co.za>";
+    const fromAddress = FROM_ADDRESS;
 
     const safeName = escapeHtml(name.trim());
     const safeService = escapeHtml(service.trim());
@@ -168,7 +169,7 @@ Notes: ${body.notes?.trim() || "None"}`;
         from: fromAddress,
         to: [normalizedEmail],
         subject: "Your RFC consultation is booked",
-        html: customerHtml,
+        html: wrapEmail(customerHtml, { preheader: `Your consultation is booked for ${formattedDate} at ${bookingTime}.` }),
         text: customerText,
       }),
     ];
@@ -179,7 +180,7 @@ Notes: ${body.notes?.trim() || "None"}`;
           from: fromAddress,
           to: [adminSettings.notification_email],
           subject: "New booking received",
-          html: internalHtml,
+          html: wrapEmail(internalHtml, { preheader: `${name.trim()} booked ${service.trim()} on ${formattedDate}.` }),
           text: internalText,
         }),
       );

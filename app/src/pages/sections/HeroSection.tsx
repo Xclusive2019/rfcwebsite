@@ -1,10 +1,19 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 
-const divisions = [
-  { icon: "corporate_fare", name: "Consulting", desc: "FSSC 22000, HACCP, R638, audits", href: "/#consulting" },
+type Division = {
+  icon: string;
+  name: string;
+  desc: string;
+  href?: string;
+  anchor?: string;
+  ext?: boolean;
+};
+
+const divisions: Division[] = [
+  { icon: "corporate_fare", name: "Consulting", desc: "FSSC 22000, HACCP, R638, audits", anchor: "consulting" },
   { icon: "school", name: "Academy", desc: "SAATCA-accredited online training", href: "https://rfcacademy.co.za", ext: true },
-  { icon: "cloud", name: "Comply Cloud - Software", desc: "Food safety compliance software", href: "/#comply-cloud" },
+  { icon: "cloud", name: "Comply Cloud - Software", desc: "Food safety compliance software", href: "/comply-cloud" },
   { icon: "health_and_safety", name: "Health & Safety", desc: "OHS courses, forklift, working at heights & more", href: "/training/health-safety" },
 ];
 
@@ -19,7 +28,6 @@ const capabilities = [
 
 export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [selectedDiv, setSelectedDiv] = useState<string | null>(null);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -107,31 +115,55 @@ export default function HeroSection() {
         <div className="mt-auto lg:mt-0 lg:flex-1 lg:flex lg:flex-col lg:justify-end">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/[0.06] overflow-visible">
             {divisions.map((div) => {
-              const isSelected = selectedDiv === div.name;
+              const cardClassName =
+                "group relative bg-[#0a0a0c]/40 backdrop-blur-[4px] p-6 sm:p-7 lg:py-14 lg:px-10 transition-all duration-300 border-b-2 z-10 border-transparent hover:bg-white/[0.12] hover:border-[#4A7C2F] hover:scale-[1.12] hover:z-20 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)]";
+              const cardInner = (
+                <>
+                  <span className="material-icon text-[22px] md:text-[26px] lg:text-[38px] mb-3 md:mb-4 lg:mb-6 block transition-colors text-white/40 group-hover:text-[#7bc45a]">
+                    {div.icon}
+                  </span>
+                  <div className="flex items-center gap-1.5 mb-1.5 lg:mb-2.5">
+                    <h3 className="text-[14px] md:text-[15px] lg:text-[17px] font-semibold transition-colors text-white/90 group-hover:text-white" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+                      {div.name}
+                    </h3>
+                    {div.ext && <span className="material-icon text-[12px] text-white/20">open_in_new</span>}
+                  </div>
+                  <p className="text-[13px] md:text-[14px] lg:text-[15px] text-white/40 leading-relaxed">{div.desc}</p>
+                </>
+              );
+
+              // External division (Academy) — open in a new tab.
+              if (div.ext && div.href) {
+                return (
+                  <a key={div.name} href={div.href} target="_blank" rel="noopener noreferrer" className={cardClassName}>
+                    {cardInner}
+                  </a>
+                );
+              }
+
+              // On-page section (Consulting) — smooth-scroll instead of routing,
+              // because HashRouter owns the URL hash.
+              if (div.anchor) {
+                return (
+                  <a
+                    key={div.name}
+                    href={`#${div.anchor}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(div.anchor as string)?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className={cardClassName}
+                  >
+                    {cardInner}
+                  </a>
+                );
+              }
+
+              // Internal route — use Link so HashRouter navigates correctly.
               return (
-              <a
-                key={div.name}
-                href={div.href}
-                target={div.ext ? "_blank" : undefined}
-                rel={div.ext ? "noopener noreferrer" : undefined}
-                onClick={() => setSelectedDiv(isSelected ? null : div.name)}
-                className={`group relative bg-[#0a0a0c]/40 backdrop-blur-[4px] p-6 sm:p-7 lg:py-14 lg:px-10 transition-all duration-300 border-b-2 z-10 ${
-                  isSelected
-                    ? "bg-white/[0.18] border-[#4A7C2F] scale-[2.0] z-20 shadow-[0_12px_50px_rgba(0,0,0,0.7)]"
-                    : "border-transparent hover:bg-white/[0.12] hover:border-[#4A7C2F] hover:scale-[1.12] hover:z-20 hover:shadow-[0_8px_40px_rgba(0,0,0,0.6)]"
-                }`}
-              >
-                <span className={`material-icon text-[22px] md:text-[26px] lg:text-[38px] mb-3 md:mb-4 lg:mb-6 block transition-colors ${isSelected ? "text-[#7bc45a]" : "text-white/40 group-hover:text-[#7bc45a]"}`}>
-                  {div.icon}
-                </span>
-                <div className="flex items-center gap-1.5 mb-1.5 lg:mb-2.5">
-                  <h3 className={`text-[14px] md:text-[15px] lg:text-[17px] font-semibold transition-colors ${isSelected ? "text-white" : "text-white/90 group-hover:text-white"}`} style={{ fontFamily: "'DM Sans', sans-serif" }}>
-                    {div.name}
-                  </h3>
-                  {div.ext && <span className="material-icon text-[12px] text-white/20">open_in_new</span>}
-                </div>
-                <p className="text-[13px] md:text-[14px] lg:text-[15px] text-white/40 leading-relaxed">{div.desc}</p>
-              </a>
+                <Link key={div.name} to={div.href as string} className={cardClassName}>
+                  {cardInner}
+                </Link>
               );
             })}
           </div>
