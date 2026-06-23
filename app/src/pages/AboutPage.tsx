@@ -78,7 +78,7 @@ const team = [
   {
     name: "Tanino Febbraio",
     role: "Food Safety Consultant",
-    photo: "/team/tanino-febbraio.jpg",
+    photo: "",
     bio: "Consultant in BRC, FSSC, FSA, SIZA and GLOBALG.A.P, and internal auditor in FSA, FSSC, BRC and GLOBALG.A.P. An EDT training practitioner and online systems developer.",
   },
   {
@@ -262,12 +262,18 @@ export default function AboutPage() {
             {team.map((member, i) => (
               <div key={member.name} className={`bg-white p-6 md:p-8 reveal reveal-delay-${(i % 3) + 1}`}>
                 <div className="aspect-square w-full overflow-hidden bg-[#eee] mb-5">
-                  <img
-                    src={member.photo}
-                    alt={member.name}
-                    loading="lazy"
-                    className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
-                  />
+                  {member.photo ? (
+                    <img
+                      src={member.photo}
+                      alt={member.name}
+                      loading="lazy"
+                      className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-[#e0e0e0] text-[#999]">
+                      <span className="material-icon text-[48px]">person</span>
+                    </div>
+                  )}
                 </div>
                 <h3 className="text-base font-semibold text-[#1a1a1e]">{member.name}</h3>
                 <p className="text-[13px] uppercase tracking-[0.12em] text-[#4A7C2F] font-medium mt-1 mb-3">

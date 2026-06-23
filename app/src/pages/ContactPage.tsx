@@ -8,6 +8,7 @@ const services = [
   "Food Safety Consulting (FSSC 22000, HACCP, R638)",
   "RFC Academy (Training & Certification)",
   "Comply Cloud (Software Demo)",
+  "Health & Safety (OHS Consulting & Training)",
   "Pest Control Solutions",
   "Internal / Supplier Audits",
   "General Enquiry",
@@ -21,10 +22,11 @@ const contactMethods = [
 ];
 
 const divisions = [
-  { name: "RFC Consulting", desc: "Food safety consulting & audits", href: "#/consulting", logo: "/RFC_logo-removebg-preview.png", icon: "corporate_fare", color: "bg-[#4A7C2F]" },
-  { name: "RFC Academy", desc: "Online training & certification", href: "https://rfcacademy.co.za", ext: true, icon: "school", color: "bg-[#1a1a1e]" },
-  { name: "Comply Cloud", desc: "Cloud compliance software", href: "#/comply-cloud", logo: "/comply-cloud-logo-removebg-preview.png", icon: "cloud", color: "bg-[#C9A227]" },
-  { name: "Pest Control Solutions", desc: "Integrated pest management", href: "https://pestcontrol-solutions.co.za", ext: true, logo: "/Pest control logo.jpeg", icon: "pest_control", color: "bg-[#b07d28]" },
+  { name: "RFC Consulting", desc: "Food safety consulting & audits", href: "#/consulting", logo: "/RFC_logo-removebg-preview.png" },
+  { name: "RFC Academy", desc: "Online training & certification", href: "https://rfcacademy.co.za", ext: true, logo: "/Training_academy.png" },
+  { name: "Comply Cloud", desc: "Cloud compliance software", href: "#/comply-cloud", logo: "/comply-cloud-logo-removebg-preview.png" },
+  { name: "Health & Safety", desc: "OHS consulting & training", href: "#/training/health-safety", logo: "/Health_and_safety.png" },
+  { name: "Pest Control Solutions", desc: "Integrated pest management", href: "https://pestcontrol-solutions.co.za", ext: true, logo: "/Pest control logo.jpeg" },
 ];
 
 export default function ContactPage() {
@@ -158,17 +160,12 @@ export default function ContactPage() {
                 <div className="space-y-4">
                   {divisions.map((d) => (
                     <a key={d.name} href={d.ext ? d.href : d.href.replace("#", "")} target={d.ext ? "_blank" : undefined} rel={d.ext ? "noopener noreferrer" : undefined} className="flex items-center gap-3 group">
-                      <div className={`w-10 h-10 ${d.logo ? "bg-white border border-[#e8e8e8]" : d.color} flex items-center justify-center shrink-0 overflow-hidden`}>
-                        {d.logo ? (
-                          <img src={d.logo} alt={d.name} className="w-full h-full object-contain p-1" />
-                        ) : (
-                          <span className="material-icon text-white text-[16px]">{d.icon}</span>
-                        )}
+                      <div className="w-10 h-10 bg-white border border-[#e8e8e8] flex items-center justify-center shrink-0 overflow-hidden">
+                        <img src={d.logo} alt={d.name} className="w-full h-full object-contain p-1" />
                       </div>
                       <div>
-                        <p className="text-sm font-medium text-[#1a1a1e] group-hover:text-[#4A7C2F] transition-colors flex items-center gap-1">
+                        <p className="text-sm font-medium text-[#1a1a1e] group-hover:text-[#4A7C2F] transition-colors">
                           {d.name}
-                          {d.ext && <span className="material-icon text-[12px] text-[#ccc]">open_in_new</span>}
                         </p>
                         <p className="text-[14px] text-[#999]">{d.desc}</p>
                       </div>

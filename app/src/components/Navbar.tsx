@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Facebook, Instagram, Linkedin } from "lucide-react";
 
@@ -33,7 +33,29 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const servicesRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
+
+  const openServices = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setServicesOpen(true);
+  };
+  const closeServices = (delay = 140) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setServicesOpen(false), delay);
+  };
+
+  useEffect(() => {
+    if (!servicesOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (servicesRef.current && !servicesRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [servicesOpen]);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -74,20 +96,25 @@ export default function Navbar() {
                 link.children ? (
                   <div
                     key={link.label}
+                    ref={servicesRef}
                     className="relative"
-                    onMouseEnter={() => setServicesOpen(true)}
-                    onMouseLeave={() => setServicesOpen(false)}
+                    onMouseEnter={openServices}
+                    onMouseLeave={() => closeServices()}
                   >
                     <button
+                      onClick={() => setServicesOpen((open) => !open)}
+                      aria-expanded={servicesOpen}
+                      aria-haspopup="true"
                       className={`flex items-center gap-1 px-3 py-2 text-[14px] font-medium transition-colors ${
                         isTransparent ? "text-white hover:text-white/80" : "text-[#1a1a1e] hover:text-[#4A7C2F]"
                       }`}
                     >
                       {link.label}
-                      <span className="material-icon text-[14px]">expand_more</span>
+                      <span className={`material-icon text-[14px] transition-transform ${servicesOpen ? "rotate-180" : ""}`}>expand_more</span>
                     </button>
                     {servicesOpen && (
-                      <div className="absolute top-full left-0 mt-1 w-80 bg-white border border-[#e8e8e8] shadow-lg py-1.5 z-50">
+                      <div className="absolute top-full left-0 pt-2 w-80 z-50">
+                      <div className="bg-white border border-[#e8e8e8] shadow-lg py-1.5">
                         {link.children.map((child) =>
                           child.external ? (
                             <a
@@ -95,6 +122,7 @@ export default function Navbar() {
                               href={child.href}
                               target="_blank"
                               rel="noopener noreferrer"
+                              onClick={() => setServicesOpen(false)}
                               className="flex items-center gap-2 px-4 py-2.5 text-[14px] font-medium text-[#1a1a1e] hover:text-[#4A7C2F] hover:bg-[#f8f8f7] transition-colors"
                             >
                               {child.label}
@@ -104,12 +132,14 @@ export default function Navbar() {
                             <Link
                               key={child.label}
                               to={child.href}
+                              onClick={() => setServicesOpen(false)}
                               className="block px-4 py-2.5 text-[14px] font-medium text-[#1a1a1e] hover:text-[#4A7C2F] hover:bg-[#f8f8f7] transition-colors"
                             >
                               {child.label}
                             </Link>
                           )
                         )}
+                      </div>
                       </div>
                     )}
                   </div>

@@ -5,16 +5,17 @@ type Division = {
   name: string;
   tagline: string;
   desc: string;
+  logo: string;
   href?: string;
   anchor?: string;
   ext?: boolean;
 };
 
 const divisions: Division[] = [
-  { num: "01", name: "RFC Consulting", tagline: "Food safety consulting & certification", desc: "Full-service consulting for FSSC 22000, HACCP, BRCGS, GLOBALG.A.P., R638 compliance, internal audits, and supplier audits. From gap assessment to certification.", anchor: "consulting" },
-  { num: "02", name: "RFC Academy", tagline: "SAATCA-accredited online training", desc: "Online food safety courses from R638 Person-in-Charge to HACCP Principles, Internal Auditor, and Food Safety Culture. Learn at your own pace, anywhere.", href: "https://rfcacademy.co.za", ext: true },
-  { num: "03", name: "Comply Cloud", tagline: "Cloud compliance software", desc: "South Africa's first cloud-based food safety compliance platform. Paperless audits, real-time monitoring, automated checklists, instant reporting.", href: "/comply-cloud" },
-  { num: "04", name: "Health & Safety", tagline: "OHS courses & workplace safety", desc: "Comprehensive health and safety training including OHS compliance, forklift operation, working at heights, and more — keeping your workplace safe and legally compliant.", href: "/training/health-safety" },
+  { num: "01", name: "RFC Consulting", tagline: "Food safety consulting & certification", desc: "Full-service consulting for FSSC 22000, HACCP, BRCGS, GLOBALG.A.P., R638 compliance, internal audits, and supplier audits. From gap assessment to certification.", logo: "/RFC_logo-removebg-preview.png", anchor: "consulting" },
+  { num: "02", name: "RFC Academy", tagline: "SAATCA-accredited online training", desc: "Online food safety courses from R638 Person-in-Charge to HACCP Principles, Internal Auditor, and Food Safety Culture. Learn at your own pace, anywhere.", logo: "/Training_academy.png", href: "https://rfcacademy.co.za", ext: true },
+  { num: "03", name: "Comply Cloud", tagline: "Cloud compliance software", desc: "South Africa's first cloud-based food safety compliance platform. Paperless audits, real-time monitoring, automated checklists, instant reporting.", logo: "/comply-cloud-logo-removebg-preview.png", href: "/comply-cloud" },
+  { num: "04", name: "Health & Safety", tagline: "OHS courses & workplace safety", desc: "Comprehensive health and safety training including OHS compliance, forklift operation, working at heights, and more — keeping your workplace safe and legally compliant.", logo: "/Health_and_safety.png", href: "/training/health-safety" },
 ];
 
 export default function DivisionsSection() {
@@ -45,8 +46,8 @@ export default function DivisionsSection() {
                   <span className="text-[12px] text-[#ccc] font-medium mt-1 shrink-0 w-6">{d.num}</span>
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
+                      <img src={d.logo} alt={d.name} className="h-7 w-auto object-contain opacity-70 group-hover:opacity-100 transition-opacity shrink-0" />
                       <h3 className="text-base md:text-lg font-semibold text-[#1a1a1e] group-hover:text-[#4A7C2F] transition-colors" style={{ fontFamily: "'DM Sans', sans-serif" }}>{d.name}</h3>
-                      {d.ext && <span className="material-icon text-[14px] text-[#ccc]">open_in_new</span>}
                     </div>
                     <p className="text-[14px] text-[#4A7C2F] font-medium mb-2">{d.tagline}</p>
                     <p className="text-body text-[14px] leading-relaxed max-w-xl">{d.desc}</p>

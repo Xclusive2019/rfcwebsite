@@ -2,42 +2,36 @@ import { Link } from "react-router-dom";
 
 const services = [
   {
-    icon: "verified",
     title: "Food Safety Management System Development",
     tags: ["FSSC 22000", "HACCP", "BRCGS", "GLOBALG.A.P."],
     desc: "Full FSMS implementation from gap assessment through Stage 1 & 2 audits to certification. Version 6 compliant.",
     href: "/services/fsms-development",
   },
   {
-    icon: "rule",
     title: "R638 Compliance",
     tags: ["Regulation R638", "DoH"],
     desc: "Ensure full compliance with South Africa's Regulations Governing General Hygiene Requirements for Food Premises.",
     href: "/contact",
   },
   {
-    icon: "assignment_turned_in",
     title: "Internal & Pre-Audit Assessments",
     tags: ["Internal Audits", "Supplier Audits"],
     desc: "Independent internal audits and pre-audit assessments against any GFSI-benchmarked standard with detailed NCR reports.",
     href: "/services/internal-audits",
   },
   {
-    icon: "storefront",
     title: "Retail & Food Service Assessments",
     tags: ["Retail", "Food Service"],
     desc: "Comprehensive assessments for retail and food service environments to ensure full regulatory and standards compliance.",
     href: "/services/retail-assessments",
   },
   {
-    icon: "label",
     title: "Labelling, Product Audits & Development",
     tags: ["R146", "NPD"],
     desc: "Regulatory-compliant labelling reviews, product audits, and new product development support for food businesses.",
     href: "/services/labelling-product-audits",
   },
   {
-    icon: "groups",
     title: "Food Safety Culture",
     tags: ["Culture", "FSSC 22000 v6"],
     desc: "Build a workplace culture of food safety from the ground up — management commitment, training, communication and measurement.",
@@ -53,6 +47,7 @@ export default function ConsultingServicesSection() {
         {/* Header */}
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-end mb-12 md:mb-16 reveal">
           <div>
+            <img src="/RFC_logo-removebg-preview.png" alt="RFC Consulting" className="h-12 w-auto mb-5 opacity-75" />
             <p className="label mb-4">Consulting Services</p>
             <h2 className="heading-lg">End-to-End Food Safety Certification</h2>
           </div>
@@ -74,11 +69,6 @@ export default function ConsultingServicesSection() {
               to={s.href}
               className={`group bg-[#f8f8f7] hover:bg-white transition-colors p-6 md:p-8 flex flex-col reveal reveal-delay-${Math.min(i + 1, 3)}`}
             >
-              {/* Icon */}
-              <div className="w-10 h-10 bg-[#4A7C2F]/10 flex items-center justify-center mb-5">
-                <span className="material-icon text-[#4A7C2F] text-[20px]">{s.icon}</span>
-              </div>
-
               {/* Title */}
               <h3
                 className="text-[15px] md:text-base font-semibold text-[#1a1a1e] group-hover:text-[#4A7C2F] transition-colors mb-2.5 leading-snug"

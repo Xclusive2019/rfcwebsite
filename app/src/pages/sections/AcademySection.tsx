@@ -19,6 +19,7 @@ export default function AcademySection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 md:gap-12 lg:gap-20">
           <div className="lg:col-span-4 reveal">
+            <img src="/Training_academy.png" alt="RFC Academy" className="h-14 w-auto mb-5 opacity-80" />
             <p className="label mb-4">Online Training</p>
             <h2 className="heading-lg mb-6">RFC Academy</h2>
             <p className="text-body leading-relaxed mb-8">

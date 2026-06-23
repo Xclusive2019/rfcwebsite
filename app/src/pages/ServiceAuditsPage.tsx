@@ -23,6 +23,9 @@ export default function ServiceAuditsPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-[#1a1a1e]/80 via-[#1a1a1e]/40 to-transparent" />
         </div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="inline-block bg-white rounded-lg px-4 py-2.5 mb-6 reveal shadow-sm border border-white/10">
+            <img src="/RFC_logo-removebg-preview.png" alt="RFC Consulting" className="h-16 w-auto object-contain" />
+          </div>
           <p className="label text-white/50 mb-4 reveal">Service 03</p>
           <h1 className="heading-lg text-white max-w-2xl reveal">
             Internal and Pre-Audit Assessments

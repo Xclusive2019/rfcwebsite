@@ -12,6 +12,7 @@ const divisions = [
   { label: "RFC Consulting", href: "/consulting" },
   { label: "RFC Academy", href: "https://rfcacademy.co.za", ext: true },
   { label: "Comply Cloud", href: "/comply-cloud" },
+  { label: "Health & Safety", href: "/training/health-safety" },
   { label: "Pest Control Solutions", href: "https://pestcontrol-solutions.co.za", ext: true },
 ];
 
