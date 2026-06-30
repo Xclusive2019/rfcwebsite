@@ -122,6 +122,7 @@ You will see a table of all posts. Each row shows the title, category, whether i
 | **Title** | The heading of your article |
 | **Slug** | This fills in automatically — it becomes the web address for the article. You can leave it as-is |
 | **Cover Image** | Click the dashed box to upload a photo from your computer (JPG, PNG or WebP, under 5 MB), or drag and drop an image onto it |
+| **YouTube / Video URL** | Optional. Paste a YouTube link to show a video player at the top of the article |
 | **Excerpt** | A short one or two sentence summary that appears on the blog listing page |
 | **Category** | Choose the most fitting category from the dropdown |
 | **Content Pillar** | Choose the broader topic area this article falls under |
@@ -167,6 +168,7 @@ The blog editor uses a simple format called Markdown for the content area. Here 
 | **Bullet list** | `- Item one` (new line for each item) |
 | **Numbered list** | `1. First item` (new line for each) |
 | **A link** | `[link text](https://website.com)` |
+| **A YouTube video** | Paste any YouTube link on its own line, e.g. `https://www.youtube.com/watch?v=ABC123` — it will appear as a video player |
 | **A line divider** | `---` |
 | Normal paragraph | Just type normally, leave a blank line between paragraphs |
 

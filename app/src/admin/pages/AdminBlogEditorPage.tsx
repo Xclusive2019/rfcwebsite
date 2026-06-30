@@ -37,6 +37,7 @@ interface FormData {
   author: string;
   content: string;
   cover_image: string;
+  video_url: string;
 }
 
 const empty: FormData = {
@@ -51,6 +52,7 @@ const empty: FormData = {
   author: "RFC Team",
   content: "",
   cover_image: "",
+  video_url: "",
 };
 
 export default function AdminBlogEditorPage() {
@@ -90,6 +92,7 @@ export default function AdminBlogEditorPage() {
           author: data.author ?? "RFC Team",
           content: data.content ?? "",
           cover_image: data.cover_image ?? "",
+          video_url: data.video_url ?? "",
         });
         setOriginalPublishedAt(data.published_at ?? null);
         setLoading(false);
@@ -292,6 +295,21 @@ export default function AdminBlogEditorPage() {
               className="mt-2 w-full border border-gray-200 rounded-lg px-4 py-2 text-xs font-mono text-gray-500 focus:outline-none focus:border-[#4A7C2F] transition-colors"
               placeholder="Or paste an image URL…"
             />
+          </div>
+
+          {/* Video URL */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">YouTube / Video URL</label>
+            <input
+              type="url"
+              value={form.video_url}
+              onChange={(e) => set("video_url", e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:border-[#4A7C2F] transition-colors"
+              placeholder="https://www.youtube.com/watch?v=..."
+            />
+            <p className="mt-1.5 text-xs text-gray-400">
+              Optional. Paste a YouTube link to show a video player on the article page.
+            </p>
           </div>
 
           {/* Excerpt */}

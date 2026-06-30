@@ -5,6 +5,7 @@ import remarkGfm from "remark-gfm";
 import { Linkedin, Facebook, MessageCircle, Mail, Link2, Check } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "../lib/supabase";
+import { getYouTubeEmbedUrl } from "../lib/youtube";
 
 interface Post {
   id: string;
@@ -18,7 +19,43 @@ interface Post {
   author: string;
   content: string;
   cover_image: string;
+  video_url: string;
   featured: boolean;
+}
+
+function YouTubePlayer({ url }: { url: string }) {
+  const embedUrl = getYouTubeEmbedUrl(url);
+  if (!embedUrl) return null;
+  return (
+    <div className="aspect-video w-full rounded-lg overflow-hidden border border-[#e0e0e0] bg-black">
+      <iframe
+        className="w-full h-full"
+        src={embedUrl}
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+        loading="lazy"
+      />
+    </div>
+  );
+}
+
+function YouTubeLink({ href, children, ...rest }: React.AnchorHTMLAttributes<HTMLAnchorElement>) {
+  if (!href) return <a {...rest} href={href}>{children}</a>;
+  const embedUrl = getYouTubeEmbedUrl(href);
+  if (!embedUrl) return <a {...rest} href={href}>{children}</a>;
+  return (
+    <div className="aspect-video w-full my-6 rounded-lg overflow-hidden border border-[#e0e0e0] bg-black">
+      <iframe
+        className="w-full h-full"
+        src={embedUrl}
+        title="Embedded YouTube video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+        loading="lazy"
+      />
+    </div>
+  );
 }
 
 function formatDate(iso: string | null) {
@@ -247,11 +284,22 @@ export default function BlogPostPage() {
 
       {/* Content */}
       <div className="max-w-3xl mx-auto px-6 lg:px-8 py-16">
+        {post.video_url && (
+          <div className="mb-10">
+            <YouTubePlayer url={post.video_url} />
+          </div>
+        )}
+
         <div
           className="prose prose-lg max-w-none prose-headings:text-[#1a1a1e] prose-headings:font-bold prose-p:text-[#4a4a4e] prose-p:leading-relaxed prose-a:text-[#4A7C2F] prose-a:no-underline hover:prose-a:underline prose-strong:text-[#1a1a1e] prose-li:text-[#4a4a4e] prose-blockquote:border-l-[#4A7C2F] prose-blockquote:text-[#4a4a4e]"
           itemProp="articleBody"
         >
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            components={{
+              a: ({ href, children }) => <YouTubeLink href={href}>{children}</YouTubeLink>,
+            }}
+          >
             {post.content}
           </ReactMarkdown>
         </div>
