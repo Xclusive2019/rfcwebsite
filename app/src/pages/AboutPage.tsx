@@ -78,7 +78,7 @@ const team = [
   {
     name: "Tanino Febbraio",
     role: "Food Safety Consultant",
-    photo: "",
+    photo: "/team/tanino-febbraio.jpeg",
     bio: "Consultant in BRC, FSSC, FSA, SIZA and GLOBALG.A.P, and internal auditor in FSA, FSSC, BRC and GLOBALG.A.P. An EDT training practitioner and online systems developer.",
   },
   {
@@ -267,7 +267,7 @@ export default function AboutPage() {
                       src={member.photo}
                       alt={member.name}
                       loading="lazy"
-                      className="w-full h-full object-cover object-center grayscale hover:grayscale-0 transition-all duration-500"
+                      className={`w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500 ${member.name === "Michael Jay-Vos" ? "object-top" : "object-center"}`}
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center bg-[#e0e0e0] text-[#999]">
